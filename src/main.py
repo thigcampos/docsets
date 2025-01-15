@@ -3,14 +3,14 @@ import os
 import requests
 from cyclopts import App
 
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
-IGNORED_FILES_AND_FOLDERS = ["man", "releases", "_", ".", "make", "bat"]
+GITHUB_TOKEN = os.environ['GITHUB_TOKEN']
+IGNORED_FILES_AND_FOLDERS = ['man', 'releases', '_', '.', 'make', 'bat']
 
 app = App()
 
 
 def fetch_docs(docset_url: str):
-    print("Fetching docs from GitHub")
+    print('Fetching docs from GitHub')
     r = requests.get(docset_url)
     return r
 
@@ -18,7 +18,9 @@ def fetch_docs(docset_url: str):
 def filter_files_and_folders(docs):
     accepted_docs = []
     for doc in docs:
-        if not any(st in doc["name"].lower() for st in IGNORED_FILES_AND_FOLDERS):
+        if not any(
+            st in doc['name'].lower() for st in IGNORED_FILES_AND_FOLDERS
+        ):
             accepted_docs.append(doc)
     return accepted_docs
 
@@ -30,7 +32,7 @@ def add(docset_url: str) -> None:
     content = response.json()
     valid_docs = filter_files_and_folders(content)
     for doc in valid_docs:
-        print(doc["name"], doc["type"])
+        print(doc['name'], doc['type'])
 
 
 @app.command()
@@ -47,8 +49,8 @@ def sync():
 
 @app.default()
 def main():
-    print("Hello, World!")
+    print('Hello, World!')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app()
